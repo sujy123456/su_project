@@ -1,0 +1,8 @@
+workflow moontrace-demo
+summary Minimal reproducible project workflow
+step plan|design|moontrace plan examples/basic.trace|true
+step build|build|moon check|true
+step test|verify|moon test|true
+step report|report|moon run cmd/main|true
+rule required-steps|Required steps must pass|error||60000
+rule fast-tests|Tests should finish quickly|warn|verify|120000
