@@ -1,16 +1,15 @@
-# MoonTrace Audit Report
+# MoonAttest Sample Result
 
-- Workflow: moontrace-demo
-- Summary: A minimal reproducible project workflow.
-- Steps: 4
-- Rules: 3
-- Passed: 5
-- Failed: 0
+```text
+MoonAttest moonattest-proof/1
+Project: MoonAttest
+Revision: sample-revision
+Evidence: 22
+Policies: 24
+Verdict: ready
+Score: 100%
+Failures: 0
+Fingerprint: ma1-5952159-4672918-8643
+```
 
-## Findings
-
-- [x] required-step / plan: required step passed
-- [x] required-step / build: required step passed
-- [x] required-step / test: required step passed
-- [x] required-step / report: required step passed
-- [x] fast-tests / test: step is within timing budget
+The fingerprint changes whenever project metadata, evidence, policies, findings, or the weighted score changes. Run `moon run cmd/main -- json` for the full machine-readable proof and `moon run cmd/main -- diff` for a revision comparison.

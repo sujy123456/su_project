@@ -1,92 +1,148 @@
 ///|
-/// A normalized file change recorded during a task.
-pub(all) struct TraceFileChange {
-  path : String
-  action : String
-  lines_added : Int
-  lines_removed : Int
-} derive(Eq, Debug)
-
-///|
-/// Path policy for a workflow.
-pub(all) struct TracePathPolicy {
-  id : String
-  allowed_prefix : String
-  denied_fragment : String
-  max_total_delta : Int
-} derive(Eq, Debug)
-
-///|
-/// Create a file change.
-pub fn TraceFileChange::make(
-  path : String,
-  action : String,
-  lines_added? : Int = 0,
-  lines_removed? : Int = 0,
-) -> TraceFileChange {
-  { path, action, lines_added, lines_removed }
+pub fn observation_matches_boundary(
+  item : FileObservation,
+  rule : BoundaryRule,
+) -> Bool {
+  let prefix_ok = rule.allowed_prefix == "" ||
+    item.path.has_prefix(rule.allowed_prefix)
+  let denied_ok = rule.denied_fragment == "" ||
+    !item.path.contains(rule.denied_fragment)
+  let delta_ok = item.delta() <= rule.max_delta
+  let generated_ok = rule.allow_generated || !item.generated
+  let tracked_ok = !rule.require_tracked || item.tracked
+  prefix_ok && denied_ok && delta_ok && generated_ok && tracked_ok
 }
 
 ///|
-/// Create a path policy.
-pub fn TracePathPolicy::make(
-  id : String,
-  allowed_prefix : String,
-  denied_fragment? : String = "",
-  max_total_delta? : Int = 1000,
-) -> TracePathPolicy {
-  { id, allowed_prefix, denied_fragment, max_total_delta }
+pub fn observation_boundary_reason(
+  item : FileObservation,
+  rule : BoundaryRule,
+) -> String {
+  if rule.allowed_prefix != "" && !item.path.has_prefix(rule.allowed_prefix) {
+    "path is outside allowed prefix"
+  } else if rule.denied_fragment != "" &&
+    item.path.contains(rule.denied_fragment) {
+    "path contains denied fragment"
+  } else if item.delta() > rule.max_delta {
+    "line delta exceeds declared boundary"
+  } else if item.generated && !rule.allow_generated {
+    "generated output is not accepted as review evidence"
+  } else if rule.require_tracked && !item.tracked {
+    "file is not tracked by the repository"
+  } else {
+    "file observation satisfies boundary"
+  }
 }
 
 ///|
-/// Check whether one change satisfies one policy.
-pub fn change_matches_policy(change : TraceFileChange, policy : TracePathPolicy) -> Bool {
-  let in_allowed = policy.allowed_prefix == "" || change.path.has_prefix(policy.allowed_prefix)
-  let not_denied = policy.denied_fragment == "" || !change.path.contains(policy.denied_fragment)
-  let delta = change.lines_added + change.lines_removed
-  in_allowed && not_denied && delta <= policy.max_total_delta
+pub fn boundary_evidence_for(
+  item : FileObservation,
+  rule : BoundaryRule,
+) -> Evidence {
+  let passed = observation_matches_boundary(item, rule)
+  Evidence::make(
+    "boundary-\{rule.id}-\{fingerprint_text(item.path)}",
+    "file-boundary",
+    item.path,
+    if passed {
+      "pass"
+    } else {
+      "fail"
+    },
+    value="\{item.delta()}",
+    source="git-diff",
+    detail=observation_boundary_reason(item, rule),
+  )
 }
 
 ///|
-/// Audit a batch of file changes.
-pub fn audit_file_changes(
-  changes : Array[TraceFileChange],
-  policies : Array[TracePathPolicy],
-) -> Array[TraceFinding] {
-  let findings = []
-  for change in changes {
-    let mut passed_any = false
-    for policy in policies {
-      if change_matches_policy(change, policy) {
-        passed_any = true
+pub fn audit_file_boundaries(
+  observations : Array[FileObservation],
+  rules : Array[BoundaryRule],
+) -> Array[Evidence] {
+  let result = []
+  for item in observations {
+    let mut matched = false
+    for rule in rules {
+      if observation_matches_boundary(item, rule) {
+        result.push(boundary_evidence_for(item, rule))
+        matched = true
       }
     }
-    findings.push({
-      rule_id: "path-boundary",
-      step_id: change.path,
-      severity: if passed_any { "info" } else { "error" },
-      message: if passed_any {
-        "file change is inside declared boundary"
-      } else {
-        "file change is outside declared boundary"
-      },
-      passed: passed_any,
-    })
+    if !matched {
+      result.push(
+        Evidence::make(
+          "boundary-unmatched-\{fingerprint_text(item.path)}",
+          "file-boundary",
+          item.path,
+          "fail",
+          value="\{item.delta()}",
+          source="git-diff",
+          detail="no declared boundary accepts this observation",
+        ),
+      )
+    }
   }
-  findings
+  result
 }
 
 ///|
-/// Common policy for this repository.
-pub fn moontrace_source_policy() -> TracePathPolicy {
-  TracePathPolicy::make("moontrace-source", "", denied_fragment="_build", max_total_delta=5000)
+pub fn total_changed_lines(observations : Array[FileObservation]) -> Int {
+  let mut total = 0
+  for item in observations {
+    total = total + item.delta()
+  }
+  total
 }
 
 ///|
-/// Fixture for README examples.
-pub fn sample_file_changes() -> Array[TraceFileChange] {
+pub fn generated_changed_lines(observations : Array[FileObservation]) -> Int {
+  let mut total = 0
+  for item in observations {
+    if item.generated {
+      total = total + item.delta()
+    }
+  }
+  total
+}
+
+///|
+pub fn effective_changed_lines(observations : Array[FileObservation]) -> Int {
+  total_changed_lines(observations) - generated_changed_lines(observations)
+}
+
+///|
+pub fn generated_ratio_percent(observations : Array[FileObservation]) -> Int {
+  let total = total_changed_lines(observations)
+  if total == 0 {
+    0
+  } else {
+    generated_changed_lines(observations) * 100 / total
+  }
+}
+
+///|
+pub fn generated_ratio_evidence(
+  observations : Array[FileObservation],
+) -> Evidence {
+  let percent = generated_ratio_percent(observations)
+  Evidence::make(
+    "generated-source-ratio",
+    "source",
+    "generated line ratio",
+    "present",
+    value="\{percent}",
+    source="git-diff",
+    detail="effective=\{effective_changed_lines(observations)};total=\{total_changed_lines(observations)}",
+  )
+}
+
+///|
+pub fn moonattest_default_boundaries() -> Array[BoundaryRule] {
   [
-    TraceFileChange::make("moontrace.mbt", "modify", lines_added=20),
-    TraceFileChange::make("docs/TECHNICAL_DESIGN.md", "modify", lines_added=12),
+    BoundaryRule::make("source", denied_fragment="_build", max_delta=12000),
+    BoundaryRule::make("docs", allowed_prefix="docs/", max_delta=4000),
+    BoundaryRule::make("examples", allowed_prefix="examples/", max_delta=2000),
+    BoundaryRule::make("ci", allowed_prefix=".github/", max_delta=1000),
   ]
 }

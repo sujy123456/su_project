@@ -1,0 +1,13 @@
+# MoonAttest dependency-free line manifest
+project moonattest
+name MoonAttest
+repository https://github.com/sujy123456/su_project
+revision example-revision
+generated 2026-08-04T18:00:00+08:00
+producer moonattest/0.2.0
+evidence moon-check|build|moon check|pass|0|moon-cli|2026-08-04T18:00:00+08:00|type check completed
+evidence moon-test|test|moon test|pass|64|moon-cli|2026-08-04T18:01:00+08:00|all tests passed
+evidence readme|artifact|README.md|present|1|workspace|2026-08-04T18:02:00+08:00|review documentation
+policy build-check|MoonBit project builds successfully|build|moon check|status|eq|pass|error|10
+policy tests-pass|MoonBit test suite passes|test|moon test|status|eq|pass|error|10
+policy readme-present|README is included|artifact|README.md|status|eq|present|error|5

@@ -1,5 +1,6 @@
 import {
-  "budding-demon/moontrace"
+  "moonbitlang/core/env",
+  "sujy123456/moonattest",
 }
 
 pkgtype(kind: "executable")

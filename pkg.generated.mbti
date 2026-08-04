@@ -1,0 +1,586 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "sujy123456/moonattest"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn all_blocking_passed(Array[Finding]) -> Bool
+
+pub fn allowed_evidence_statuses() -> Array[String]
+
+pub fn allowed_policy_predicates() -> Array[String]
+
+pub fn allowed_severities() -> Array[String]
+
+pub fn append_manifest_evidence(Attestation, Evidence) -> Attestation
+
+pub fn append_manifest_policy(Attestation, Policy) -> Attestation
+
+pub fn attestation_delta(Attestation, Attestation) -> Array[EvidenceDelta]
+
+pub fn attestation_has_regression(Attestation, Attestation) -> Bool
+
+pub fn audit_file_boundaries(Array[FileObservation], Array[BoundaryRule]) -> Array[Evidence]
+
+pub fn audit_sources(Array[SourceRecord]) -> Array[SourceFinding]
+
+pub fn boundary_evidence_for(FileObservation, BoundaryRule) -> Evidence
+
+pub fn build_policies() -> Array[Policy]
+
+pub fn build_proof_bundle(Attestation) -> ProofBundle
+
+pub fn bundle_metrics_markdown(ProofBundle) -> String
+
+pub fn bundle_with_evidence(ProofBundle, Evidence) -> ProofBundle
+
+pub fn bundle_without_evidence(ProofBundle, String) -> ProofBundle
+
+pub fn canonical_attestation(Attestation) -> String
+
+pub fn canonical_evidence(Evidence) -> String
+
+pub fn canonical_finding(Finding) -> String
+
+pub fn canonical_findings(Array[Finding]) -> String
+
+pub fn canonical_meta(ProjectMeta) -> String
+
+pub fn canonical_policy(Policy) -> String
+
+pub fn changed_evidence(Array[EvidenceDelta]) -> Array[EvidenceDelta]
+
+pub fn checksum_primary(String) -> Int
+
+pub fn checksum_secondary(String) -> Int
+
+pub fn clamp_int(Int, Int, Int) -> Int
+
+pub fn compare_evidence(Array[Evidence], Array[Evidence]) -> Array[EvidenceDelta]
+
+pub fn competition_acceptance_policies() -> Array[Policy]
+
+pub fn compliance_policies() -> Array[Policy]
+
+pub fn conflict_evidence(Array[Evidence]) -> Evidence
+
+pub fn count_blocking_findings(Array[Finding]) -> Int
+
+pub fn count_failed_findings(Array[Finding]) -> Int
+
+pub fn count_occurrences(String, String) -> Int
+
+pub fn count_passed_findings(Array[Finding]) -> Int
+
+pub fn count_source_failures(Array[SourceFinding]) -> Int
+
+pub fn count_warning_findings(Array[Finding]) -> Int
+
+pub fn delivery_policies() -> Array[Policy]
+
+pub fn documentation_policies() -> Array[Policy]
+
+pub fn duplicate_evidence_ids(Array[Evidence]) -> Array[String]
+
+pub fn duplicate_policy_ids(Array[Policy]) -> Array[String]
+
+pub fn effective_changed_lines(Array[FileObservation]) -> Int
+
+pub fn escape_json(String) -> String
+
+pub fn escape_markdown_cell(String) -> String
+
+pub fn evaluate_policies(Array[Policy], Array[Evidence]) -> Array[Finding]
+
+pub fn evaluate_policy(Policy, Array[Evidence]) -> Finding
+
+pub fn evaluate_text_predicate(String, String, String) -> Bool
+
+pub fn evidence_conflicts(Array[Evidence]) -> Array[EvidenceConflict]
+
+pub fn evidence_delta_summary(Array[EvidenceDelta]) -> String
+
+pub fn evidence_field(Evidence, String) -> String
+
+pub fn evidence_fingerprint(Evidence) -> String
+
+pub fn evidence_from_ci(String, String, Bool, run_id? : String) -> Evidence
+
+pub fn evidence_from_clean_tree(Bool, detail? : String) -> Evidence
+
+pub fn evidence_from_commit_count(Int, revision? : String) -> Evidence
+
+pub fn evidence_from_coverage(Int, detail? : String, collected_at? : String) -> Evidence
+
+pub fn evidence_from_dependency_count(Int, Int) -> Evidence
+
+pub fn evidence_from_example(String, String, Bool, output? : String) -> Evidence
+
+pub fn evidence_from_file_presence(String, String, Bool, source? : String) -> Evidence
+
+pub fn evidence_from_format_check(Bool, detail? : String) -> Evidence
+
+pub fn evidence_from_license(String, Bool) -> Evidence
+
+pub fn evidence_from_line_count(Int, generated_lines? : Int) -> Evidence
+
+pub fn evidence_from_moon_check(String, collected_at? : String) -> Evidence
+
+pub fn evidence_from_moon_test(String, collected_at? : String) -> Evidence
+
+pub fn evidence_from_mooncakes(String, String, Bool) -> Evidence
+
+pub fn evidence_from_public_repository(String, Bool, Bool) -> Evidence
+
+pub fn evidence_ids(Array[Evidence]) -> Array[String]
+
+pub fn evidence_improvements(Array[EvidenceDelta]) -> Array[EvidenceDelta]
+
+pub fn evidence_kind_counts(Array[Evidence]) -> Array[(String, Int)]
+
+pub fn evidence_kinds(Array[Evidence]) -> Array[String]
+
+pub fn evidence_ledger_summary(Array[Evidence]) -> String
+
+pub fn evidence_matches(Array[Evidence], kind? : String, subject_contains? : String, status? : String, source? : String) -> Array[Evidence]
+
+pub fn evidence_metrics(Array[Evidence]) -> EvidenceMetrics
+
+pub fn evidence_regressions(Array[EvidenceDelta]) -> Array[EvidenceDelta]
+
+pub fn evidence_source_counts(Array[Evidence]) -> Array[(String, Int)]
+
+pub fn evidence_sources(Array[Evidence]) -> Array[String]
+
+pub fn evidence_status_counts(Array[Evidence]) -> Array[(String, Int)]
+
+pub fn evidence_statuses(Array[Evidence]) -> Array[String]
+
+pub fn evidence_with_id(Array[Evidence], String) -> Array[Evidence]
+
+pub fn evidence_with_kind(Array[Evidence], String) -> Array[Evidence]
+
+pub fn evidence_with_source(Array[Evidence], String) -> Array[Evidence]
+
+pub fn evidence_with_status(Array[Evidence], String) -> Array[Evidence]
+
+pub fn failed_findings(Array[Finding]) -> Array[Finding]
+
+pub fn finding_earned_weight(Array[Finding]) -> Int
+
+pub fn finding_fingerprint(Finding) -> String
+
+pub fn finding_for_policy(Array[Finding], String) -> Finding?
+
+pub fn finding_possible_weight(Array[Finding]) -> Int
+
+pub fn findings_at_least(Array[Finding], String) -> Array[Finding]
+
+pub fn fingerprint_attestation(Attestation) -> String
+
+pub fn fingerprint_bundle_content(Attestation, Array[Finding], AttestationScore) -> String
+
+pub fn fingerprint_chain(Array[TimelineEntry]) -> Array[String]
+
+pub fn fingerprint_text(String) -> String
+
+pub fn first_number_or(String, Int) -> Int
+
+pub fn generated_changed_lines(Array[FileObservation]) -> Int
+
+pub fn generated_ratio_evidence(Array[FileObservation]) -> Evidence
+
+pub fn generated_ratio_percent(Array[FileObservation]) -> Int
+
+pub fn is_osi_license(String) -> Bool
+
+pub fn join_non_empty(Array[String], String) -> String
+
+pub fn last_number_or(String, Int) -> Int
+
+pub fn license_requires_notice(String) -> Bool
+
+pub fn manifest_evidence_line_count(String) -> Int
+
+pub fn manifest_has_header(String) -> Bool
+
+pub fn manifest_policy_line_count(String) -> Int
+
+pub fn manifest_summary(Attestation) -> String
+
+pub fn merge_evidence(Array[Evidence], Array[Evidence]) -> Array[Evidence]
+
+pub fn merge_evidence_groups(Array[Array[Evidence]]) -> Array[Evidence]
+
+pub fn merge_policy_groups(Array[Array[Policy]]) -> Array[Policy]
+
+pub fn metric_evidence(Array[Evidence], collected_at? : String) -> Array[Evidence]
+
+pub fn metric_grade(Int) -> String
+
+pub fn minimal_acceptance_policies() -> Array[Policy]
+
+pub fn moonattest_default_boundaries() -> Array[BoundaryRule]
+
+pub fn normalized_status(String) -> String
+
+pub fn numbers_in_text(String) -> Array[Int]
+
+pub fn observation_boundary_reason(FileObservation, BoundaryRule) -> String
+
+pub fn observation_matches_boundary(FileObservation, BoundaryRule) -> Bool
+
+pub fn original_project_evidence(Bool, Int) -> Evidence
+
+pub fn osi_license_ids() -> Array[String]
+
+pub fn parse_attestation_manifest(String) -> Attestation
+
+pub fn parse_bool_text(String, Bool) -> Bool
+
+pub fn parse_evidence_line(String) -> Evidence
+
+pub fn parse_non_negative_int(String, Int) -> Int
+
+pub fn parse_policy_line(String) -> Policy
+
+pub fn parse_signed_int(String, Int) -> Int
+
+pub fn passed_findings(Array[Finding]) -> Array[Finding]
+
+pub fn policy_by_id(Array[Policy], String) -> Policy?
+
+pub fn policy_catalog_summary(Array[Policy]) -> String
+
+pub fn policy_coverage(Array[Policy], Array[Finding]) -> Int
+
+pub fn policy_fingerprint(Policy) -> String
+
+pub fn policy_ids(Array[Policy]) -> Array[String]
+
+pub fn policy_message(Policy, Bool, String) -> String
+
+pub fn policy_metrics(Array[Policy], Array[Finding]) -> PolicyMetrics
+
+pub fn proof_bundle_is_acceptable(ProofBundle) -> Bool
+
+pub fn proof_bundle_is_valid(ProofBundle) -> Bool
+
+pub fn proof_bundle_summary(ProofBundle) -> String
+
+pub fn rebuild_proof_bundle(ProofBundle) -> ProofBundle
+
+pub fn reconcile_evidence(Array[Evidence], source_priorities? : Array[String]) -> Array[Evidence]
+
+pub fn render_attestation_manifest(Attestation) -> String
+
+pub fn render_conflicts_markdown(Array[EvidenceConflict]) -> String
+
+pub fn render_console_summary(ProofBundle) -> String
+
+pub fn render_delta_markdown(Array[EvidenceDelta]) -> String
+
+pub fn render_evidence_line(Evidence) -> String
+
+pub fn render_evidence_markdown(Array[Evidence]) -> String
+
+pub fn render_findings_markdown(Array[Finding]) -> String
+
+pub fn render_metrics_markdown(EvidenceMetrics, PolicyMetrics) -> String
+
+pub fn render_policy_line(Policy) -> String
+
+pub fn render_proof_json(ProofBundle) -> String
+
+pub fn render_proof_markdown(ProofBundle) -> String
+
+pub fn render_schema_issues_markdown(Array[SchemaIssue]) -> String
+
+pub fn render_source_inventory(Array[SourceRecord]) -> String
+
+pub fn render_timeline_markdown(Array[TimelineEntry]) -> String
+
+pub fn repeat_text(String, Int) -> String
+
+pub fn replace_manifest_revision(Attestation, String) -> Attestation
+
+pub fn repository_policies() -> Array[Policy]
+
+pub fn sample_attestation() -> Attestation
+
+pub fn sample_evidence() -> Array[Evidence]
+
+pub fn sample_failing_attestation() -> Attestation
+
+pub fn sample_file_observations() -> Array[FileObservation]
+
+pub fn sample_manifest() -> String
+
+pub fn sample_project_meta() -> ProjectMeta
+
+pub fn sample_proof_bundle() -> ProofBundle
+
+pub fn sample_source_records() -> Array[SourceRecord]
+
+pub fn sample_timeline() -> Array[TimelineEntry]
+
+pub fn schema_error_count(Array[SchemaIssue]) -> Int
+
+pub fn schema_evidence(Attestation, String) -> Evidence
+
+pub fn schema_findings(Array[SchemaIssue]) -> Array[Finding]
+
+pub fn schema_is_valid(Array[SchemaIssue]) -> Bool
+
+pub fn schema_warning_count(Array[SchemaIssue]) -> Int
+
+pub fn score_findings(Array[Finding]) -> AttestationScore
+
+pub fn select_policy_evidence(Policy, Array[Evidence]) -> Evidence?
+
+pub fn severity_rank(String) -> Int
+
+pub fn source_audit_evidence(Array[SourceRecord]) -> Evidence
+
+pub fn source_findings_pass(Array[SourceFinding]) -> Bool
+
+pub fn source_record_issues(SourceRecord) -> Array[SourceFinding]
+
+pub fn string_in_list(String, Array[String]) -> Bool
+
+pub fn test_policies() -> Array[Policy]
+
+pub fn text_part(Array[String], Int, String) -> String
+
+pub fn timeline_chain(Array[TimelineEntry]) -> Array[String]
+
+pub fn timeline_chain_is_valid(Array[TimelineEntry], Array[String]) -> Bool
+
+pub fn timeline_has_duplicate_sequences(Array[TimelineEntry]) -> Bool
+
+pub fn timeline_is_monotonic(Array[TimelineEntry]) -> Bool
+
+pub fn timeline_latest(Array[TimelineEntry]) -> Array[TimelineEntry]
+
+pub fn timeline_sorted(Array[TimelineEntry]) -> Array[TimelineEntry]
+
+pub fn timeline_summary(Array[TimelineEntry]) -> String
+
+pub fn timeline_to_evidence(Array[TimelineEntry], String) -> Array[Evidence]
+
+pub fn timeline_transition_issues(Array[TimelineEntry]) -> Array[SchemaIssue]
+
+pub fn total_changed_lines(Array[FileObservation]) -> Int
+
+pub fn unique_evidence_ids(Array[Evidence]) -> Bool
+
+pub fn unique_policy_ids(Array[Policy]) -> Bool
+
+pub fn unique_strings(Array[String]) -> Array[String]
+
+pub fn validate_attestation(Attestation) -> Array[SchemaIssue]
+
+pub fn validate_evidence_item(Evidence, Int) -> Array[SchemaIssue]
+
+pub fn validate_policy_item(Policy, Int) -> Array[SchemaIssue]
+
+pub fn validate_project_meta(ProjectMeta) -> Array[SchemaIssue]
+
+pub fn verify_attestation_fingerprint(Attestation, String) -> Bool
+
+pub fn verify_bundle_fingerprint(ProofBundle) -> Bool
+
+pub fn verify_fingerprint_chain(Array[TimelineEntry], Array[String]) -> Bool
+
+pub fn verify_proof_bundle(ProofBundle) -> Array[SchemaIssue]
+
+// Errors
+
+// Types and methods
+pub(all) struct Attestation {
+  meta : ProjectMeta
+  evidence : Array[Evidence]
+  policies : Array[Policy]
+} derive(Eq, @debug.Debug)
+pub fn Attestation::evidence_count(Self) -> Int
+pub fn Attestation::evidence_of_kind(Self, String) -> Array[Evidence]
+pub fn Attestation::find_evidence(Self, String) -> Evidence?
+pub fn Attestation::has_evidence(Self, String) -> Bool
+pub fn Attestation::make(ProjectMeta, Array[Evidence], Array[Policy]) -> Self
+pub fn Attestation::policy_count(Self) -> Int
+
+pub(all) struct AttestationScore {
+  earned : Int
+  possible : Int
+  percent : Int
+  verdict : String
+  blocking_failures : Int
+  warnings : Int
+} derive(Eq, @debug.Debug)
+
+pub(all) struct BoundaryRule {
+  id : String
+  allowed_prefix : String
+  denied_fragment : String
+  max_delta : Int
+  allow_generated : Bool
+  require_tracked : Bool
+} derive(Eq, @debug.Debug)
+pub fn BoundaryRule::make(String, allowed_prefix? : String, denied_fragment? : String, max_delta? : Int, allow_generated? : Bool, require_tracked? : Bool) -> Self
+
+pub(all) struct Evidence {
+  id : String
+  kind : String
+  subject : String
+  status : String
+  value : String
+  source : String
+  collected_at : String
+  detail : String
+} derive(Eq, @debug.Debug)
+pub fn Evidence::identity(Self) -> String
+pub fn Evidence::is_failure(Self) -> Bool
+pub fn Evidence::is_pass(Self) -> Bool
+pub fn Evidence::make(String, String, String, String, value? : String, source? : String, collected_at? : String, detail? : String) -> Self
+
+pub(all) struct EvidenceConflict {
+  evidence_id : String
+  first_source : String
+  second_source : String
+  first_status : String
+  second_status : String
+  first_value : String
+  second_value : String
+} derive(Eq, @debug.Debug)
+pub fn EvidenceConflict::make(String, String, String, String, String, String, String) -> Self
+
+pub(all) struct EvidenceDelta {
+  evidence_id : String
+  change : String
+  old_status : String
+  new_status : String
+  old_value : String
+  new_value : String
+} derive(Eq, @debug.Debug)
+pub fn EvidenceDelta::make(String, String, String, String, String, String) -> Self
+
+pub(all) struct EvidenceMetrics {
+  total : Int
+  passing : Int
+  failing : Int
+  warning : Int
+  unknown : Int
+  unique_kinds : Int
+  unique_sources : Int
+  completeness_percent : Int
+  health_percent : Int
+} derive(Eq, @debug.Debug)
+
+pub(all) struct FileObservation {
+  path : String
+  action : String
+  lines_added : Int
+  lines_removed : Int
+  generated : Bool
+  tracked : Bool
+} derive(Eq, @debug.Debug)
+pub fn FileObservation::delta(Self) -> Int
+pub fn FileObservation::make(String, String, lines_added? : Int, lines_removed? : Int, generated? : Bool, tracked? : Bool) -> Self
+
+pub(all) struct Finding {
+  policy_id : String
+  evidence_id : String
+  severity : String
+  passed : Bool
+  weight : Int
+  actual : String
+  expected : String
+  message : String
+} derive(Eq, @debug.Debug)
+pub fn Finding::make(String, String, String, Bool, Int, String, String, String) -> Self
+
+pub(all) struct Policy {
+  id : String
+  title : String
+  target_kind : String
+  target_subject : String
+  field : String
+  predicate : String
+  expected : String
+  severity : String
+  weight : Int
+} derive(Eq, @debug.Debug)
+pub fn Policy::is_blocking(Self) -> Bool
+pub fn Policy::make(String, String, String, String, String, String, target_subject? : String, severity? : String, weight? : Int) -> Self
+
+pub(all) struct PolicyMetrics {
+  total : Int
+  passed : Int
+  failed : Int
+  blocking_failed : Int
+  warning_failed : Int
+  evaluated_percent : Int
+  weighted_percent : Int
+} derive(Eq, @debug.Debug)
+
+pub(all) struct ProjectMeta {
+  project_id : String
+  display_name : String
+  repository : String
+  revision : String
+  generated_at : String
+  producer : String
+} derive(Eq, @debug.Debug)
+pub fn ProjectMeta::make(String, String, String, String, generated_at? : String, producer? : String) -> Self
+
+pub(all) struct ProofBundle {
+  attestation : Attestation
+  findings : Array[Finding]
+  score : AttestationScore
+  fingerprint : String
+  format_version : String
+} derive(Eq, @debug.Debug)
+
+pub(all) struct SchemaIssue {
+  path : String
+  code : String
+  severity : String
+  message : String
+} derive(Eq, @debug.Debug)
+pub fn SchemaIssue::make(String, String, String, severity? : String) -> Self
+
+pub(all) struct SourceFinding {
+  source_id : String
+  passed : Bool
+  severity : String
+  code : String
+  message : String
+} derive(Eq, @debug.Debug)
+
+pub(all) struct SourceRecord {
+  id : String
+  name : String
+  origin : String
+  license : String
+  usage : String
+  modified : Bool
+  notice_present : Bool
+  approved : Bool
+} derive(Eq, @debug.Debug)
+pub fn SourceRecord::make(String, String, String, String, String, modified? : Bool, notice_present? : Bool, approved? : Bool) -> Self
+
+pub(all) struct TimelineEntry {
+  sequence : Int
+  evidence_id : String
+  status : String
+  value : String
+  observed_at : String
+  note : String
+} derive(Eq, @debug.Debug)
+pub fn TimelineEntry::make(Int, String, String, value? : String, observed_at? : String, note? : String) -> Self
+
+// Type aliases
+
+// Traits

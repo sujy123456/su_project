@@ -1,96 +1,88 @@
-# MoonTrace
+# MoonAttest
 
-MoonTrace is a MoonBit library and CLI demo for reproducible task workflows and audit reports. It helps a project describe what should happen during a development task, import the observed events, check rules, and render a compact report that can be kept with CI logs or hackathon acceptance records.
+MoonAttest 是一个用 MoonBit 实现的项目验收证据与可复现质量证明引擎。它把构建、测试、CI、许可证、代码规模、文档和发布状态等不同来源的结果统一为结构化 `Evidence`，按声明式 `Policy` 评估，并生成带确定性指纹的证明包。项目只负责“证明当前项目状态”，不执行任务、不调度工作流，也不替代 GitHub Actions。
 
-## Why
+仓库地址：[github.com/sujy123456/su_project](https://github.com/sujy123456/su_project)
 
-Many hackathon projects can build and test, but the development process is hard to review after the fact. MoonTrace gives MoonBit projects a small, auditable layer:
+## 核心能力
 
-- describe steps with a tiny line-based DSL;
-- record whether each step passed, failed, or timed out;
-- check required steps and timing budgets;
-- render Markdown and JSON-like summaries;
-- reuse a generated catalog of workflow profiles for design, build, verify, docs, release, license, publish, and review stages.
+- 将 `moon check`、`moon test`、覆盖率、Git、CI、文件和 mooncakes 状态归一化为证据；
+- 使用 `eq`、`contains`、`min_int`、`between`、`one_of` 等谓词执行加权验收策略；
+- 校验证据结构、唯一标识、许可证来源、文件变更边界和生成代码占比；
+- 检测同一证据的冲突观察，并按来源优先级与采集时间合并；
+- 生成 Markdown、JSON、行式清单、指标表、时间线和两次验收差异报告；
+- 对证明包和证据时间线计算稳定指纹，用于 CI 制品复核；
+- 内置黑客松验收策略目录，并提供可执行样例和 89 项测试。
 
-## Install Toolchain
+## 构建与测试
 
-Install MoonBit first. On Windows PowerShell:
-
-```powershell
-Set-ExecutionPolicy RemoteSigned -Scope CurrentUser; irm https://cli.moonbitlang.cn/install/powershell.ps1 | iex
-```
-
-Then reopen the terminal, or prepend the local binary directory for the current session:
+安装 MoonBit 工具链后，在仓库根目录运行：
 
 ```powershell
-$env:PATH = "$env:USERPROFILE\.moon\bin;$env:PATH"
-```
-
-## Build And Test
-
-```powershell
+moon fmt
 moon check
 moon test
-moon run cmd/main
+moon run cmd/main -- sample
 ```
 
-Expected CLI output:
+当前样例输出：
 
 ```text
-moontrace-demo: 4 steps, 3 rules
-audit: 5 passed, 0 failed
-release: nearly-ready (85/100)
-{ "workflow": "moontrace-demo", "steps": 4, "rules": 3, "passed": 5, "failed": 0 }
+MoonAttest moonattest-proof/1
+Project: MoonAttest
+Revision: sample-revision
+Evidence: 22
+Policies: 24
+Verdict: ready
+Score: 100%
+Failures: 0
+Fingerprint: ma1-5952159-4672918-8643
 ```
 
-## DSL Example
+## CLI 示例
 
-```text
-workflow demo
-summary Demo flow
-step build|build|moon check|true
-step test|verify|moon test|true
-rule required|Required steps must pass|error||60000
-rule fast-test|Verify stage should be fast|warn|verify|120000
+```powershell
+moon run cmd/main -- sample    # 控制台验收摘要
+moon run cmd/main -- json      # 机器可读证明包
+moon run cmd/main -- manifest  # 无依赖行式清单
+moon run cmd/main -- diff      # 两次验收结果差异
+moon run cmd/main -- timeline  # 带指纹链的证据历史
 ```
 
-## MoonBit API Example
+`examples/basic.attest` 是可解析清单示例，字段顺序为项目元数据、证据和策略。格式保持无第三方依赖，便于 CI 脚本直接生成。
+
+## MoonBit API
 
 ```mbt
-test "audit example" {
-  let flow = sample_workflow()
-  let events = passing_events(flow)
-  let findings = audit_workflow(flow, events)
-  inspect(is_accepted(findings), content="true")
+test "project acceptance proof" {
+  let attestation = sample_attestation()
+  let bundle = build_proof_bundle(attestation)
+  inspect(bundle.score.verdict, content="ready")
+  inspect(verify_bundle_fingerprint(bundle), content="true")
 }
 ```
 
-## Project Layout
+接入真实项目时，可使用 `evidence_from_moon_check`、`evidence_from_moon_test`、`evidence_from_ci`、`evidence_from_license` 等适配器组装证据，再替换样例元数据与策略。证明指纹是确定性完整性校验值，不是密码学签名。
 
-- `moontrace.mbt`: public workflow, step, event, rule, and finding models.
-- `parser.mbt`: line-based DSL parser.
-- `audit.mbt`: audit engine and finding counters.
-- `events.mbt`: event fixture builders for examples and tests.
-- `report.mbt`: Markdown and compact machine-readable report renderers.
-- `boundary.mbt`: file boundary checks for changed paths and line deltas.
-- `release.mbt`: release readiness scoring for hackathon acceptance.
-- `catalog.generated.mbt`: generated built-in workflow catalog.
-- `cmd/main`: runnable CLI demo.
-- `examples/basic.trace`: runnable input example.
-- `examples/expected_report.md`: expected Markdown audit report shape.
-- `docs/PROJECT_APPLICATION.md`: one-page hackathon application draft.
+## 模块结构
 
-## Publication Plan
+- `model.mbt`：证据、策略、发现、证明包和指标模型；
+- `adapters.mbt`：MoonBit、Git、CI、文件、许可证和发布结果适配器；
+- `policy.mbt` / `catalog.mbt`：谓词评估、加权评分和验收策略目录；
+- `schema.mbt` / `provenance.mbt` / `boundary.mbt`：结构、来源和文件边界审计；
+- `ledger.mbt` / `metrics.mbt`：证据冲突合并和质量指标；
+- `fingerprint.mbt` / `timeline.mbt` / `compare.mbt`：完整性链和跨版本差异；
+- `manifest.mbt` / `report.mbt`：清单解析及 Markdown、JSON 输出；
+- `cmd/main`：可运行 CLI 演示。
 
-The package is prepared for mooncakes.io publication through MoonBit's package flow:
+## 与工作流项目的区别
 
-```powershell
-moon login
-moon publish
-```
+公开检索中已存在 MoonFlow、moonbit-workflow-engine 等工作流实现，也存在名为 MoonTrace 的 OpenTelemetry 包。MoonAttest 因此不再提供任务 DAG、状态机、重试、定时器或执行器，而专注于验收证据归一化、合规来源、证明指纹和版本差异。这一功能边界可与现有 CI、工作流工具组合，而不是重复实现它们。详细对照见 `docs/DUPLICATION_REVIEW.md`。
 
-The final GitHub repository should be public before submission. Update `moon.mod` if the GitHub username differs from the placeholder repository URL.
+## 发布状态
 
-## License
+仓库已配置 GitHub Actions。正式验收前仍需使用参赛者自己的 mooncakes.io 身份执行 `moon login` 和 `moon publish`，并把真实包版本及发布链接写入发布记录。
 
-MIT License. MoonTrace is an original project and does not copy third-party source code.
+## 许可证
+
+项目采用 MIT License。来源与许可证说明见 `SOURCE_ATTRIBUTION.md`。

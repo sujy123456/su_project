@@ -9,9 +9,9 @@
 //   "moonbitlang/x@0.4.6",
 // }
 
-name = "budding-demon/moontrace"
+name = "sujy123456/moonattest"
 
-version = "0.1.0"
+version = "0.2.0"
 
 readme = "README.md"
 
@@ -19,8 +19,8 @@ repository = "https://github.com/sujy123456/su_project"
 
 license = "MIT"
 
-keywords = ["workflow", "audit", "ci", "task", "moonbit"]
+keywords = [ "attestation", "evidence", "compliance", "ci", "moonbit" ]
 
 preferred_target = "wasm"
 
-description = "A reproducible task workflow and audit report engine for MoonBit projects."
+description = "A deterministic acceptance-evidence and quality-proof engine for MoonBit projects."

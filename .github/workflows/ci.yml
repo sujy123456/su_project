@@ -19,8 +19,14 @@ jobs:
       - name: Check
         run: moon check
 
+      - name: Format
+        run: moon fmt --check
+
       - name: Test
         run: moon test
 
       - name: Run CLI demo
-        run: moon run cmd/main
+        run: moon run cmd/main -- sample
+
+      - name: Render JSON proof
+        run: moon run cmd/main -- json
