@@ -3,7 +3,7 @@
 ## 基本信息
 
 - 项目名称：MoonTrace：面向 MoonBit 项目的可复现任务流水线与审计报告引擎
-- 参赛者：布丁大魔王
+- 参赛者：苏楗轶
 - 联系方式：2821775174@qq.com
 - GitHub 仓库链接：https://github.com/sujy123456/su_project
 - 项目方向：MoonBit 开发工具 / 自动化构建与项目验收辅助
