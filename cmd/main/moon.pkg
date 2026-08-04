@@ -1,0 +1,5 @@
+import {
+  "budding-demon/moontrace"
+}
+
+pkgtype(kind: "executable")
