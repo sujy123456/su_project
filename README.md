@@ -69,6 +69,7 @@ test "audit example" {
 - `audit.mbt`: audit engine and finding counters.
 - `events.mbt`: event fixture builders for examples and tests.
 - `report.mbt`: Markdown and compact machine-readable report renderers.
+- `boundary.mbt`: file boundary checks for changed paths and line deltas.
 - `catalog.generated.mbt`: generated built-in workflow catalog.
 - `cmd/main`: runnable CLI demo.
 - `examples/basic.trace`: runnable input example.
