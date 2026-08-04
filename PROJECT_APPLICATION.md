@@ -15,15 +15,15 @@ MoonAttest 是一个使用 MoonBit 实现的项目验收证据与可复现质量
 
 ## 核心功能范围
 
-- 提供 `ProjectMeta`、`Evidence`、`Policy`、`Finding`、`Attestation` 和 `ProofBundle` 等 MoonBit 原生数据模型；
-- 支持将 `moon check`、`moon test`、覆盖率、Git、CI、文件、许可证、依赖和 mooncakes.io 状态归一化为验收证据；
+- 提供 ProjectMeta、Evidence、Policy、Finding、Attestation 和 ProofBundle 等 MoonBit 原生数据模型；
+- 支持将 moon check、moon test、覆盖率、Git、CI、文件、许可证、依赖和 mooncakes.io 状态归一化为验收证据；
 - 提供声明式策略引擎，支持相等、包含、前后缀、布尔值、整数范围、候选集合等谓词和加权评分；
 - 提供黑客松验收策略目录，覆盖公开仓库、构建、测试、代码规模、README、CI、示例、许可证和发布状态；
 - 支持证据结构校验、唯一标识检查、文件变更边界、生成代码占比和第三方来源许可证审计；
 - 支持检测同一证据的冲突观察，并根据来源优先级和采集时间进行合并；
 - 支持确定性证明包指纹、证据时间线指纹链以及两次验收结果的回归和改进对比；
 - 支持无第三方依赖的行式清单解析，并输出控制台摘要、Markdown、JSON、指标表、差异报告和时间线；
-- 提供 `sample`、`json`、`manifest`、`diff`、`timeline` 五种可运行 CLI 示例；
+- 提供 sample、json、manifest、diff、timeline 五种可运行 CLI 示例；
 - 提供超过 4,000 行有效 MoonBit 代码、89 项可运行测试、完整 README、技术设计、更新日志和 GitHub Actions CI。
 
 ## 移植或参考说明
@@ -33,4 +33,4 @@ MoonAttest 是一个使用 MoonBit 实现的项目验收证据与可复现质量
 - 原项目许可证：无
 - 本项目许可证：MIT License
 
-本项目未移植或复制其他开源项目代码，仅使用 MoonBit 官方工具链和标准库 API，并参考 CI 质量门禁、软件供应链证明和策略校验等通用工程思想。公开查重过程中发现 MoonFlow、moonbit-workflow-engine 等项目已覆盖工作流 DSL、调度、重试和事件回放，另有同名 MoonTrace 遥测包，因此本项目改名为 MoonAttest，并移除工作流执行、状态机、重试和遥测等重合功能，聚焦验收证据归一化、来源合规、质量证明指纹和跨版本差异。第三方工具与许可证来源统一记录在 `SOURCE_ATTRIBUTION.md`。
+本项目未移植或复制其他开源项目代码，仅使用 MoonBit 官方工具链和标准库 API，并参考 CI 质量门禁、软件供应链证明和策略校验等通用工程思想。公开查重过程中发现 MoonFlow、moonbit-workflow-engine 等项目已覆盖工作流 DSL、调度、重试和事件回放，另有同名 MoonTrace 遥测包，因此本项目改名为 MoonAttest，并移除工作流执行、状态机、重试和遥测等重合功能，聚焦验收证据归一化、来源合规、质量证明指纹和跨版本差异。第三方工具与许可证来源统一记录在 SOURCE_ATTRIBUTION.md。
