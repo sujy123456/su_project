@@ -70,6 +70,7 @@ test "audit example" {
 - `events.mbt`: event fixture builders for examples and tests.
 - `report.mbt`: Markdown and compact machine-readable report renderers.
 - `boundary.mbt`: file boundary checks for changed paths and line deltas.
+- `release.mbt`: release readiness scoring for hackathon acceptance.
 - `catalog.generated.mbt`: generated built-in workflow catalog.
 - `cmd/main`: runnable CLI demo.
 - `examples/basic.trace`: runnable input example.
