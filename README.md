@@ -38,6 +38,9 @@ Expected CLI output:
 
 ```text
 moontrace-demo: 4 steps, 3 rules
+audit: 5 passed, 0 failed
+release: nearly-ready (85/100)
+{ "workflow": "moontrace-demo", "steps": 4, "rules": 3, "passed": 5, "failed": 0 }
 ```
 
 ## DSL Example
@@ -74,6 +77,7 @@ test "audit example" {
 - `catalog.generated.mbt`: generated built-in workflow catalog.
 - `cmd/main`: runnable CLI demo.
 - `examples/basic.trace`: runnable input example.
+- `examples/expected_report.md`: expected Markdown audit report shape.
 - `docs/PROJECT_APPLICATION.md`: one-page hackathon application draft.
 
 ## Publication Plan

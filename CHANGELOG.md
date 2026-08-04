@@ -7,4 +7,4 @@
 - Added generated built-in catalog for common hackathon workflow stages.
 - Added file boundary checks for changed paths and line deltas.
 - Added release readiness scoring for README, CI, tests, examples, license, line count, commits, and mooncakes publication.
-- Added CLI smoke demo, tests, README, application draft, and CI plan.
+- Added CLI smoke demo, expected report example, tests, README, application draft, and CI plan.

@@ -15,7 +15,7 @@ version = "0.1.0"
 
 readme = "README.md"
 
-repository = "https://github.com/2821775174/moontrace"
+repository = "https://github.com/sujy123456/su_project"
 
 license = "MIT"
 
